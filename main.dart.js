@@ -86511,7 +86511,7 @@ s($,"aSG","atx",()=>new A.adO())
 r($,"aQa","aAD",()=>new A.adU())
 s($,"aQb","aAE",()=>new A.adV())
 s($,"aSJ","aCg",()=>new A.a7A(A.E(t.N,A.a9("a6<bP?>?(bP?)"))))
-s($,"aSA","aCc",()=>A.atV("https://dd31-103-150-209-78.ngrok-free.app/",B.oM,!0,B.FM))
+s($,"aSA","aCc",()=>A.atV("https://softwaresstar.pk/",B.oM,!0,B.FM))
 s($,"aSr","FD",()=>{var q=$.aCc(),p=new A.ZO(A.asM(),new A.IW(A.a([B.AX],A.a9("y<ii?>"))),A.asM(),new A.XW(A.aLS()),!1)
 p.Pe$=q==null?A.atV("",null,null,null):q
 p.Pf$=new A.Yf(A.b7(A.a9("ib")))
