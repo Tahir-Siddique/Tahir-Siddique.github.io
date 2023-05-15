@@ -91036,7 +91036,7 @@ s($,"aZB","ayL",()=>new A.ahT())
 r($,"aWw","aGb",()=>new A.ahZ())
 s($,"aWx","aGc",()=>new A.ai_())
 s($,"aZE","aI4",()=>new A.abw(A.A(t.N,A.a5("a4<bY?>?(bY?)"))))
-s($,"aZv","aI1",()=>A.az7("http://127.0.0.1:8000/",B.p4,!0,B.p1))
+s($,"aZv","aI1",()=>A.az7("https://admin.focusmore.fun/",B.p4,!0,B.p1))
 s($,"aZk","wJ",()=>{var q=$.aI1(),p=new A.a2m(A.axP(),new A.LT(A.a([B.BB],A.a5("v<iH?>"))),A.axP(),new A.a0e(A.aRZ()),!1)
 p.QX$=q==null?A.az7("",null,null,null):q
 p.QY$=new A.a0w(A.aO(A.a5("iB")))
