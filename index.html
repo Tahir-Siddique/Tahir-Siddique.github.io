@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -27,33 +28,122 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
   <title>focusmore_frontend</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = '1448692483';
+    var serviceWorkerVersion = '3510663706';
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer></script>
 </head>
+
 <body>
   <script>
-    window.addEventListener('load', function(ev) {
+    window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function (engineInitializer) {
+          engineInitializer.initializeEngine().then(function (appRunner) {
             appRunner.runApp();
           });
         }
       });
     });
   </script>
+
+  <script>
+    var recordedChunks = [];
+    var rec;
+    window.startRecording = function () {
+      recordedChunks = []
+      try {
+        // WebSocket connection
+        var socket = new WebSocket("ws://127.0.0.1:8181");
+
+        // Event handler for incoming messages
+        socket.onmessage = function (event) {
+          console.log(event.data);
+        };
+
+      } catch (error) {
+
+      }
+      navigator.mediaDevices.getUserMedia({ audio: true }).then(function (stream) {
+        mediaStream = stream;
+
+        rec = new MediaRecorder(stream);
+        rec.ondataavailable = e => {
+          // audio data available, do something with it
+          recordedChunks.push(e.data);
+        };
+        rec.start();
+      });
+    }
+
+    window.stopRecording = function (apiURL, paragraphId) {
+      return new Promise((resolve, reject) => {
+        // Stop the recording
+        // Stop the recording
+        if (rec) {
+          rec.stop();
+          // Disconnect the stream
+          if (mediaStream) {
+            mediaStream.getTracks().forEach(track => track.stop());
+          }
+          rec.onstop = (e) => {
+            let blob = new Blob(recordedChunks, {
+              type: 'audio/wav',
+            });
+
+            let reader = new FileReader();
+            reader.onloadend = function () {
+              var base64data = reader.result;
+              let accessToken = localStorage.getItem('access_token');
+              let gaze_points = { "X": 1, "Y": 1 }; // This should be replaced with your actual gaze_points data
+
+              // Create FormData
+              let formData = new FormData();
+              formData.append('results_json', JSON.stringify(gaze_points));
+              formData.append('gaze_points', JSON.stringify(gaze_points));
+              formData.append('paragraph', paragraphId);
+              formData.append('recording', new File([blob], 'audio.wav'), 'audio/wav');
+
+              // Send the POST request
+              fetch(apiURL + 'add_analysis', {
+                method: 'POST',
+                headers: {
+                  'Authorization': `Bearer ${accessToken}`
+                },
+                body: formData
+              }).then(response => {
+                if (response.ok) {
+                  console.log('Upload successful!');
+                  resolve(response.json());
+                } else {
+                  console.log('Upload failed: ' + response.status);
+                  reject('Upload failed');
+                }
+              }).catch(error => {
+                console.log('An error occurred: ' + error);
+                reject('Upload failed');
+              });
+
+              // Reset recorded chunks
+              recordedChunks = [];
+            }
+            reader.readAsDataURL(blob);
+          }
+        }
+      })
+    }
+  </script>
 </body>
+
 </html>
