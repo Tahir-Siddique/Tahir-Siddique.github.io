@@ -209,6 +209,11 @@ a { color: var(--cobalt); }
   outline: 1px solid rgba(255, 255, 255, 0.16);
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
   position: relative;
+  animation: photo-float 4.8s ease-in-out infinite;
+}
+@keyframes photo-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
 }
 .hero-photo::after {
   content: "";
