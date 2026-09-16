@@ -256,7 +256,7 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
   gap: clamp(1.5rem, 5vw, 3.5rem);
-  align-items: start;
+  align-items: center;
 }
 .hero-content { min-width: 0; }
 
