@@ -254,6 +254,14 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   position: relative;
   z-index: 1;
 }
+html.apple-scroll .hero {
+  min-height: 128vh;
+}
+html.apple-scroll .hero-inner {
+  position: sticky;
+  top: 5.6rem;
+  padding-bottom: 1.2rem;
+}
 
 .hero-inner {
   display: grid;
@@ -261,7 +269,10 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   gap: clamp(1.5rem, 5vw, 3.5rem);
   align-items: center;
 }
-.hero-content { min-width: 0; }
+.hero-content {
+  min-width: 0;
+  will-change: transform, opacity;
+}
 
 .hero-photo {
   width: 100%;
@@ -289,6 +300,8 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   height: 100%;
   object-fit: cover;
   object-position: center 22%;
+  will-change: transform;
+  transform-origin: center 28%;
 }
 
 .hero-place {
@@ -820,6 +833,8 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   }
   .topbar.is-open .topnav { display: flex; }
   .hero-inner { grid-template-columns: minmax(0, 1fr); }
+  html.apple-scroll .hero { min-height: 0; }
+  html.apple-scroll .hero-inner { position: static; padding-bottom: 0; }
   .hero-photo {
     max-width: 18rem;
     margin-inline: auto;
@@ -859,11 +874,65 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   .float-cta { display: none; }
 }
 
+@supports (animation-timeline: view()) {
+  html.apple-scroll .js .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  html.apple-scroll .section-title,
+  html.apple-scroll .lede,
+  html.apple-scroll .kicker {
+    animation: apple-copy linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 42%;
+  }
+  html.apple-scroll .band.in .tile,
+  html.apple-scroll .band.in .work-card,
+  html.apple-scroll .band.in .process li,
+  html.apple-scroll .band.in .proof article {
+    animation: apple-card linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 28%;
+    animation-delay: 0s;
+  }
+}
+@keyframes apple-copy {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    translate: 0 2.4rem;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    translate: 0 0;
+    scale: 1;
+  }
+}
+@keyframes apple-card {
+  from {
+    opacity: 0;
+    translate: 0 3rem;
+    scale: 0.94;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal, .band.in .tile, .band.in .work-card, .band.in .process li, .band.in .proof article {
     opacity: 1;
     transform: none;
+    filter: none;
+  }
+  .hero-photo img, .hero-content {
+    transform: none !important;
+    filter: none !important;
   }
 }
