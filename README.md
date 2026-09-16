@@ -1,34 +1,15 @@
-# Tahir Siddique — Python developer, London
+# Tahir Siddique
 
-Live site: [https://tahirsiddique.dev](https://tahirsiddique.dev/)  
-GitHub Pages also redirects from [tahir-siddique.github.io](https://tahir-siddique.github.io/).
+Python developer in London. Hire me to create backends, deploy APIs, build custom apps, add LLM/RAG features, or ship Flutter mobile UIs.
 
-## SEO / Google Search Console
+**[tahirsiddique.dev](https://tahirsiddique.dev)** · [Get an estimate](https://tahirsiddique.dev/#estimate) · [LinkedIn](https://www.linkedin.com/in/tahir-siddique-pk/) · [Email](mailto:tahirsiddiquework@gmail.com) · [CV](Tahir_Siddique_CV.pdf)
 
-Use the **custom domain** as the property Google indexes (the `.github.io` URL 301s to it).
+## What I build
 
-1. Open [Google Search Console](https://search.google.com/search-console)
-2. Add property → **URL prefix** → `https://tahirsiddique.dev`
-3. Verify (easiest: HTML tag in this site’s `<head>`, or DNS TXT on `tahirsiddique.dev`)
-4. Sitemaps → submit `https://tahirsiddique.dev/sitemap.xml`
-5. URL inspection → inspect `https://tahirsiddique.dev/` → Request indexing
+- Python backends and REST APIs (Django, FastAPI, Flask)
+- Backend deployment (Docker, CI/CD, Azure DevOps)
+- Custom web apps, dashboards, and admin panels
+- LLM features in production (chat APIs, RAG, detectors)
+- Flutter mobile UIs
 
-AI crawlers: `https://tahirsiddique.dev/llms.txt` and `https://tahirsiddique.dev/agent.json`
-
-After a week or two, search **Tahir Siddique Python** and check the Images tab.
-
-If Search Console gives you a `google-site-verification` meta tag, paste it into `index.html` `<head>` and push.
-
-## Files
-
-- `index.html` / `styles.css` — site
-- `robots.txt` / `sitemap.xml` — crawl
-- `assets/tahir-siddique-python-developer.jpg` — portrait
-- `assets/tahir-siddique-python-developer-og.jpg` — 1200×630 share image
-- `CNAME` — `tahirsiddique.dev`
-
-## Local preview
-
-```bash
-python -m http.server 8000
-```
+Freelance and contract, London or remote.
