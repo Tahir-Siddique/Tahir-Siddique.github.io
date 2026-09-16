@@ -253,6 +253,10 @@
     <div class="cursor-ring"><span></span></div>
     <div class="cursor-dot"><span></span></div>
   </div>
+  <div class="cursor-buddy" aria-hidden="true">
+    <span class="buddy-eye"><i class="buddy-pupil"></i></span>
+    <span class="buddy-eye"><i class="buddy-pupil"></i></span>
+  </div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar">
@@ -838,6 +842,26 @@
   </main>
 
   <a class="float-cta" href="#estimate">Estimate <svg class="ico" aria-hidden="true"><use href="#i-arrow"></use></svg></a>
+  <div class="emoji-rail" aria-hidden="true">
+    <span style="--i:0"><i>⭐</i></span>
+    <span style="--i:1"><i>✨</i></span>
+    <span style="--i:2"><i>💡</i></span>
+    <span style="--i:3"><i>⚡</i></span>
+    <span style="--i:4"><i>🚀</i></span>
+    <span style="--i:5"><i>💻</i></span>
+    <span style="--i:6"><i>🐍</i></span>
+    <span style="--i:7"><i>📱</i></span>
+    <span style="--i:8"><i>🧠</i></span>
+    <span style="--i:9"><i>🧩</i></span>
+    <span style="--i:10"><i>📡</i></span>
+    <span style="--i:11"><i>🔐</i></span>
+    <span style="--i:12"><i>🛠️</i></span>
+    <span style="--i:13"><i>📊</i></span>
+    <span style="--i:14"><i>🎯</i></span>
+    <span style="--i:15"><i>🔥</i></span>
+    <span style="--i:16"><i>☁️</i></span>
+    <span style="--i:17"><i>🔧</i></span>
+  </div>
 
   <footer class="foot">
     <p>&copy; <span id="year"></span> Tahir Siddique · London · Python, APIs &amp; LLMs</p>
@@ -936,54 +960,99 @@
       });
     });
 
+    const pointer = {
+      x: window.innerWidth * 0.76,
+      y: window.innerHeight * 0.4,
+      on: false
+    };
     const glow = document.querySelector(".glow");
     const cursor = document.querySelector(".cursor");
+    const buddy = document.querySelector(".cursor-buddy");
     const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    if (!reduceMotion && (glow || (cursor && finePointer))) {
+    if (!reduceMotion && (glow || (cursor && finePointer) || (buddy && finePointer))) {
       const ring = cursor?.querySelector(".cursor-ring");
       const dot = cursor?.querySelector(".cursor-dot");
+      const pupils = buddy ? [...buddy.querySelectorAll(".buddy-pupil")] : [];
       const useCursor = Boolean(cursor && ring && dot && finePointer);
+      const useBuddy = Boolean(buddy && finePointer);
       if (useCursor) document.documentElement.classList.add("has-cursor");
+      if (useBuddy) document.documentElement.classList.add("has-buddy");
       let x = window.innerWidth * 0.5;
       let y = window.innerHeight * 0.28;
       let rx = x;
       let ry = y;
+      let bx = x + 40;
+      let by = y + 52;
+      let bvx = 0;
+      let bvy = 0;
+      let lastScrollY = window.scrollY;
       let cursorOn = false;
       const hotSel = "a, button, summary, label, .chip, .nav-burger, [role='button']";
       const typeSel = "input, textarea, select";
       document.addEventListener("pointermove", (e) => {
-        if (useCursor && e.pointerType && e.pointerType !== "mouse") return;
+        if ((useCursor || useBuddy) && e.pointerType && e.pointerType !== "mouse") return;
         x = e.clientX;
         y = e.clientY;
+        pointer.x = x;
+        pointer.y = y;
+        pointer.on = true;
         if (glow) {
           glow.style.left = x + "px";
           glow.style.top = y + "px";
         }
-        if (useCursor && !cursorOn) {
+        if ((useCursor || useBuddy) && !cursorOn) {
           cursorOn = true;
           rx = x;
           ry = y;
-          cursor.classList.add("is-on");
+          cursor?.classList.add("is-on");
+          buddy?.classList.add("is-on");
         }
       }, { passive: true });
-      if (useCursor) {
+      if (useCursor || useBuddy) {
         document.addEventListener("pointerover", (e) => {
           const t = e.target;
           if (!(t instanceof Element)) return;
-          cursor.classList.toggle("is-hot", Boolean(t.closest(hotSel)));
-          cursor.classList.toggle("is-type", Boolean(t.closest(typeSel)));
+          const typing = Boolean(t.closest(typeSel));
+          const hot = Boolean(t.closest(hotSel));
+          cursor?.classList.toggle("is-hot", hot);
+          cursor?.classList.toggle("is-type", typing);
+          buddy?.classList.toggle("is-type", typing);
         });
-        document.addEventListener("pointerdown", () => cursor.classList.add("is-down"));
-        document.addEventListener("pointerup", () => cursor.classList.remove("is-down"));
+        document.addEventListener("pointerdown", () => cursor?.classList.add("is-down"));
+        document.addEventListener("pointerup", () => cursor?.classList.remove("is-down"));
         document.documentElement.addEventListener("mouseleave", () => {
-          cursor.classList.remove("is-on");
+          cursor?.classList.remove("is-on");
+          buddy?.classList.remove("is-on");
           cursorOn = false;
         });
         const tick = () => {
           rx += (x - rx) * 0.16;
           ry += (y - ry) * 0.16;
-          ring.style.transform = "translate3d(" + rx + "px," + ry + "px,0)";
-          dot.style.transform = "translate3d(" + x + "px," + y + "px,0)";
+          if (useCursor) {
+            ring.style.transform = "translate3d(" + rx + "px," + ry + "px,0)";
+            dot.style.transform = "translate3d(" + x + "px," + y + "px,0)";
+          }
+          if (useBuddy && cursorOn) {
+            const sy = window.scrollY;
+            bvy += (sy - lastScrollY) * 0.28;
+            lastScrollY = sy;
+            bvx += (x + 26 - bx) * 0.03;
+            bvy += (y + 22 - by) * 0.03;
+            bvx *= 0.86;
+            bvy *= 0.86;
+            bx += bvx;
+            by += bvy;
+            const dist = Math.hypot(x - bx, y - by) || 1;
+            const ang = Math.atan2(y - by, x - bx);
+            buddy.style.transform = "translate3d(" + bx + "px," + by + "px,0)";
+            const look = Math.min(3.6, dist / 22);
+            const lx = Math.cos(ang) * look;
+            const ly = Math.sin(ang) * look;
+            pupils.forEach((p) => {
+              p.style.transform = "translate(" + lx + "px," + ly + "px)";
+            });
+            buddy.classList.toggle("is-close", dist < 48);
+          }
           requestAnimationFrame(tick);
         };
         tick();
@@ -1052,12 +1121,61 @@
         heroCopy.style.transform = "translate3d(0," + (p * -22) + "px,0)";
       }
     };
+    const emojiRail = document.querySelector(".emoji-rail");
+    const emojiNodes = emojiRail ? [...emojiRail.querySelectorAll(":scope > span")] : [];
+    const golden = Math.PI * (3 - Math.sqrt(5));
+    const emojiOrbit = emojiNodes.map((_, i) => {
+      const a = i * golden;
+      const r = 54 + (i % 6) * 24 + (i * 2.4);
+      return {
+        ox: Math.cos(a) * r,
+        oy: Math.sin(a) * r,
+        follow: 0.012 + (i % 8) * 0.0032,
+        spin: 0.7 + (i % 5) * 0.12
+      };
+    });
+    const emojiState = emojiNodes.map((_, i) => ({
+      x: window.innerWidth * 0.76 + (emojiOrbit[i]?.ox || 0),
+      y: window.innerHeight * 0.4 + (emojiOrbit[i]?.oy || 0),
+      r: i % 2 ? -14 : 12,
+      s: 0.92
+    }));
+    const tickEmoji = () => {
+      if (!emojiRail || !emojiNodes.length || reduceMotion) return;
+      if (window.matchMedia("(max-width: 720px)").matches) return;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      const t = performance.now() / 1000;
+      const spin = t * 0.18 + p * 2.4;
+      const cx = pointer.x;
+      const cy = pointer.y;
+      emojiNodes.forEach((el, i) => {
+        const orb = emojiOrbit[i];
+        const st = emojiState[i];
+        const ang = spin * orb.spin;
+        const tx = cx + orb.ox * Math.cos(ang) - orb.oy * Math.sin(ang);
+        const ty = cy + orb.ox * Math.sin(ang) + orb.oy * Math.cos(ang);
+        st.x += (tx - st.x) * orb.follow;
+        st.y += (ty - st.y) * orb.follow;
+        st.r += ((i % 2 ? -16 : 14) + Math.sin(t * 0.6 + i) * 10 - st.r) * 0.04;
+        st.s += ((pointer.on ? 1 : 0.9) - st.s) * 0.04;
+        el.style.transform = "translate3d(" + st.x + "px," + st.y + "px,0) rotate(" + st.r + "deg) scale(" + st.s + ")";
+      });
+    };
     const onScroll = () => {
       tickHero();
+      tickEmoji();
       spy();
     };
     if (scroller) scroller.on("scroll", onScroll);
     else window.addEventListener("scroll", onScroll, { passive: true });
+    if (!reduceMotion && emojiNodes.length) {
+      const emojiLoop = () => {
+        tickEmoji();
+        requestAnimationFrame(emojiLoop);
+      };
+      requestAnimationFrame(emojiLoop);
+    }
     onScroll();
   </script>
 </body>

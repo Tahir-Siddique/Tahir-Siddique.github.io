@@ -159,6 +159,60 @@ html.has-cursor .cursor.is-down .cursor-ring span {
   transform: scale(0.82);
 }
 
+.cursor-buddy {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 18;
+  width: 2.85rem;
+  height: 1.35rem;
+  margin: -0.68rem 0 0 -1.42rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.22rem;
+  pointer-events: none;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.22s ease;
+}
+html.has-buddy .cursor-buddy { display: flex; }
+html.has-buddy .cursor-buddy.is-on { opacity: 0.92; }
+html.has-buddy .cursor-buddy.is-type { opacity: 0; }
+.buddy-eye {
+  position: relative;
+  width: 1.22rem;
+  height: 1.22rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.22), transparent 28%),
+    radial-gradient(circle at 50% 55%, #152033, #07090f 72%);
+  border: 1px solid rgba(77, 139, 255, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(244, 241, 234, 0.06),
+    0 0 14px rgba(77, 139, 255, 0.22);
+}
+.buddy-pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.38rem;
+  height: 0.38rem;
+  margin: -0.19rem 0 0 -0.19rem;
+  border-radius: 50%;
+  background: #e8d5b5;
+  box-shadow: 0 0 7px rgba(232, 213, 181, 0.55);
+  display: block;
+  font-style: normal;
+}
+.cursor-buddy.is-close .buddy-eye {
+  border-color: rgba(232, 213, 181, 0.45);
+  box-shadow:
+    inset 0 0 0 1px rgba(244, 241, 234, 0.08),
+    0 0 16px rgba(77, 139, 255, 0.32);
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -836,6 +890,34 @@ html.apple-scroll .hero-inner {
 }
 .float-cta:hover { background: var(--cobalt); color: #fff; }
 
+.emoji-rail {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.emoji-rail span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: clamp(1.05rem, 1.35vw, 1.4rem);
+  line-height: 1;
+  opacity: 0.46;
+  will-change: transform;
+  transform-origin: 0.7em 0.7em;
+  filter: blur(0.15px) drop-shadow(0 8px 14px rgba(0, 0, 0, 0.28));
+}
+.emoji-rail i {
+  display: block;
+  font-style: normal;
+  animation: emoji-bob 3.4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.18s);
+}
+@keyframes emoji-bob {
+  50% { translate: 0 -5px; }
+}
+
 .foot {
   padding: 1.6rem clamp(1.15rem, 4vw, 2rem) 5.4rem;
   text-align: center;
@@ -909,6 +991,8 @@ html.apple-scroll .hero-inner {
   .service-grid, .work-grid, .process, .proof, .stats { grid-template-columns: minmax(0, 1fr); }
   .glow { display: none; }
   .float-cta { display: none; }
+  .emoji-rail { display: none; }
+  .cursor-buddy { display: none; }
 }
 
 @supports (animation-timeline: view()) {
@@ -962,6 +1046,8 @@ html.apple-scroll .hero-inner {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .emoji-rail { display: none; }
+  .cursor-buddy { display: none; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .reveal, .band.in .tile, .band.in .work-card, .band.in .process li, .band.in .proof article {
     opacity: 1;
