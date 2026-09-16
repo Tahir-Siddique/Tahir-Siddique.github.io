@@ -8,7 +8,7 @@
   <meta name="author" content="Tahir Siddique">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="googlebot" content="index, follow">
-  <meta name="theme-color" content="#0c1220">
+  <meta name="theme-color" content="#07090f">
   <link rel="canonical" href="https://tahirsiddique.dev/">
   <link rel="alternate" hreflang="en-GB" href="https://tahirsiddique.dev/">
   <link rel="alternate" hreflang="en" href="https://tahirsiddique.dev/">
@@ -42,7 +42,7 @@
   <link rel="preload" as="image" href="assets/tahir-siddique-python-developer.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 
   <script type="application/ld+json">
@@ -221,6 +221,7 @@
   </script>
 </head>
 <body>
+  <div class="ambient" aria-hidden="true"><span class="glow"></span></div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar">
@@ -248,9 +249,10 @@
             fetchpriority="high">
         </div>
         <div class="hero-content">
-          <p class="hero-place">Python · LLMs · London · Freelance &amp; contract</p>
+          <p class="status"><span class="pulse" aria-hidden="true"></span> Available · London <span id="london-time"></span></p>
+          <p class="hero-place">Python · LLMs · Freelance &amp; contract</p>
           <h1>Tahir Siddique — Python apps, APIs, and LLM features that ship</h1>
-          <p class="hero-blurb">Hire Tahir Siddique to <strong>create Python backends</strong>, <strong>deploy APIs</strong>, build custom apps, add LLM/RAG features, or ship Flutter mobile UIs. London and remote. Brief me — I’ll send an estimate.</p>
+          <p class="hero-blurb">Not a gallery of old screenshots. Hire Tahir Siddique to <strong>create Python backends</strong>, <strong>deploy APIs</strong>, build custom apps, add LLM/RAG features, or ship Flutter mobile UIs. London and remote. Brief me — I’ll send an estimate.</p>
           <div class="hero-cta">
             <a class="cta cta-fill" href="#estimate">Get a project estimate</a>
             <a class="cta cta-ghost" href="#work">See the kind of work I do</a>
@@ -286,7 +288,7 @@
       </div>
     </section>
 
-    <section class="band" id="services">
+    <section class="band reveal" id="services">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Services</p>
@@ -333,7 +335,7 @@
       </div>
     </section>
 
-    <section class="band band-llm" id="llm">
+    <section class="band reveal" id="llm">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">LLMs &amp; AI</p>
@@ -376,12 +378,12 @@
       </div>
     </section>
 
-    <section class="band" id="work">
+    <section class="band reveal" id="work">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Work</p>
-          <h2 class="section-title">Examples of what I’ve built</h2>
-          <p class="lede">Ideas and outcomes only — no source dumps. Client systems plus public experiments that show the range: products, APIs, automation, AI, mobile.</p>
+          <h2 class="section-title">Systems in production, not a screenshot reel</h2>
+          <p class="lede">Ideas and outcomes only — no source dumps. Filter by kind of job. Client systems plus public experiments: products, APIs, automation, AI, mobile.</p>
         </div>
         <div class="filters" role="tablist" aria-label="Filter work">
           <button type="button" class="chip is-on" data-filter="all">All</button>
@@ -517,7 +519,7 @@
       </div>
     </section>
 
-    <section class="band" id="process">
+    <section class="band reveal" id="process">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Process</p>
@@ -540,7 +542,7 @@
       </div>
     </section>
 
-    <section class="band band-tint" id="experience">
+    <section class="band reveal" id="experience">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Experience</p>
@@ -601,7 +603,7 @@
       </div>
     </section>
 
-    <section class="band" id="about">
+    <section class="band reveal" id="about">
       <div class="wrap about-grid">
         <div>
           <p class="kicker">About</p>
@@ -644,7 +646,7 @@
       </div>
     </section>
 
-    <section class="band band-tint" id="awards">
+    <section class="band reveal" id="awards">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Proof</p>
@@ -671,7 +673,7 @@
       </div>
     </section>
 
-    <section class="band band-contact" id="estimate">
+    <section class="band reveal" id="estimate">
       <div class="wrap estimate-grid">
         <div>
           <p class="kicker">Estimate</p>
@@ -747,7 +749,7 @@
       </div>
     </section>
 
-    <section class="band" id="faq">
+    <section class="band reveal" id="faq">
       <div class="wrap">
         <p class="kicker">FAQ</p>
         <h2 class="section-title">Before you write</h2>
@@ -792,6 +794,7 @@
   </footer>
 
   <script>
+    document.documentElement.classList.add("js");
     document.getElementById("year").textContent = new Date().getFullYear();
     if (new URLSearchParams(location.search).get("sent") === "1") {
       const thanks = document.getElementById("form-thanks");
@@ -835,6 +838,57 @@
         });
       });
     });
+
+    const glow = document.querySelector(".glow");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (glow && !reduceMotion) {
+      document.addEventListener("pointermove", (e) => {
+        glow.style.left = e.clientX + "px";
+        glow.style.top = e.clientY + "px";
+      }, { passive: true });
+    }
+
+    const reveals = document.querySelectorAll(".reveal");
+    if (!reduceMotion && "IntersectionObserver" in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+      reveals.forEach((el) => io.observe(el));
+    } else {
+      reveals.forEach((el) => el.classList.add("in"));
+    }
+
+    const london = document.getElementById("london-time");
+    const stampLondon = () => {
+      if (!london) return;
+      london.textContent = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/London",
+        hour: "2-digit",
+        minute: "2-digit",
+        hourCycle: "h23"
+      }).format(new Date());
+    };
+    stampLondon();
+    setInterval(stampLondon, 30000);
+
+    const sections = [...document.querySelectorAll("main section[id]")];
+    const navLinks = [...document.querySelectorAll(".topnav a")];
+    const spy = () => {
+      const y = window.scrollY + 140;
+      let current = "";
+      sections.forEach((s) => {
+        if (s.offsetTop <= y) current = s.id;
+      });
+      navLinks.forEach((a) => {
+        a.classList.toggle("is-active", a.getAttribute("href") === "#" + current);
+      });
+    };
+    window.addEventListener("scroll", spy, { passive: true });
+    spy();
   </script>
 </body>
 </html>
