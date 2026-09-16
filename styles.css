@@ -301,7 +301,7 @@ html.apple-scroll .hero-inner {
   object-fit: cover;
   object-position: center 22%;
   will-change: transform;
-  transform-origin: center 28%;
+  transform-origin: center center;
 }
 
 .hero-place {
