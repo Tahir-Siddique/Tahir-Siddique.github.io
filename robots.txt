@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tahir-siddique.github.io/sitemap.xml
