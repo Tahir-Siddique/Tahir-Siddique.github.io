@@ -12,7 +12,8 @@ Use the **custom domain** as the property Google indexes (the `.github.io` URL 3
 3. Verify (easiest: HTML tag in this site’s `<head>`, or DNS TXT on `tahirsiddique.dev`)
 4. Sitemaps → submit `https://tahirsiddique.dev/sitemap.xml`
 5. URL inspection → inspect `https://tahirsiddique.dev/` → Request indexing
-6. Optional: also add the Domain property `tahirsiddique.dev` so `www` / http variants are covered
+
+AI crawlers: `https://tahirsiddique.dev/llms.txt` and `https://tahirsiddique.dev/agent.json`
 
 After a week or two, search **Tahir Siddique Python** and check the Images tab.
 

@@ -12,4 +12,19 @@
       <image:caption>Tahir Siddique, Python backend developer in London</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://tahirsiddique.dev/llms.txt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tahirsiddique.dev/llms-full.txt</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tahirsiddique.dev/agent.json</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
