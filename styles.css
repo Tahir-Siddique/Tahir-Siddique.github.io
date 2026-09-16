@@ -97,6 +97,65 @@ a { color: var(--cobalt); }
   transition: left 0.25s ease, top 0.25s ease;
 }
 
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+html.has-cursor .cursor { display: block; }
+html.has-cursor .cursor.is-on { opacity: 1; }
+html.has-cursor .cursor.is-type { opacity: 0; }
+html.has-cursor,
+html.has-cursor * { cursor: none !important; }
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor select { cursor: text !important; }
+
+.cursor-ring,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+.cursor-ring span,
+.cursor-dot span {
+  display: block;
+  border-radius: 50%;
+}
+.cursor-dot span {
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  background: var(--sand);
+  box-shadow: 0 0 10px rgba(232, 213, 181, 0.75);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.cursor-ring span {
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid rgba(77, 139, 255, 0.9);
+  transition: transform 0.22s ease, background 0.22s ease, border-color 0.22s ease;
+}
+html.has-cursor .cursor.is-hot .cursor-ring span {
+  transform: scale(1.55);
+  background: rgba(77, 139, 255, 0.14);
+  border-color: var(--sand);
+}
+html.has-cursor .cursor.is-hot .cursor-dot span {
+  transform: scale(0.45);
+  background: var(--cobalt);
+}
+html.has-cursor .cursor.is-down .cursor-ring span {
+  transform: scale(0.82);
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;

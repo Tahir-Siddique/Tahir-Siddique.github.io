@@ -248,6 +248,10 @@
     <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="5"/><path d="m8.5 13-1.5 8 5-2.5L17 21l-1.5-8"/></symbol>
   </svg>
   <div class="ambient" aria-hidden="true"><span class="glow"></span></div>
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-ring"><span></span></div>
+    <div class="cursor-dot"><span></span></div>
+  </div>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="topbar">
@@ -873,12 +877,58 @@
     });
 
     const glow = document.querySelector(".glow");
+    const cursor = document.querySelector(".cursor");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (glow && !reduceMotion) {
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (!reduceMotion && (glow || (cursor && finePointer))) {
+      const ring = cursor?.querySelector(".cursor-ring");
+      const dot = cursor?.querySelector(".cursor-dot");
+      const useCursor = Boolean(cursor && ring && dot && finePointer);
+      if (useCursor) document.documentElement.classList.add("has-cursor");
+      let x = window.innerWidth * 0.5;
+      let y = window.innerHeight * 0.28;
+      let rx = x;
+      let ry = y;
+      let cursorOn = false;
+      const hotSel = "a, button, summary, label, .chip, .nav-burger, [role='button']";
+      const typeSel = "input, textarea, select";
       document.addEventListener("pointermove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
+        if (useCursor && e.pointerType && e.pointerType !== "mouse") return;
+        x = e.clientX;
+        y = e.clientY;
+        if (glow) {
+          glow.style.left = x + "px";
+          glow.style.top = y + "px";
+        }
+        if (useCursor && !cursorOn) {
+          cursorOn = true;
+          rx = x;
+          ry = y;
+          cursor.classList.add("is-on");
+        }
       }, { passive: true });
+      if (useCursor) {
+        document.addEventListener("pointerover", (e) => {
+          const t = e.target;
+          if (!(t instanceof Element)) return;
+          cursor.classList.toggle("is-hot", Boolean(t.closest(hotSel)));
+          cursor.classList.toggle("is-type", Boolean(t.closest(typeSel)));
+        });
+        document.addEventListener("pointerdown", () => cursor.classList.add("is-down"));
+        document.addEventListener("pointerup", () => cursor.classList.remove("is-down"));
+        document.documentElement.addEventListener("mouseleave", () => {
+          cursor.classList.remove("is-on");
+          cursorOn = false;
+        });
+        const tick = () => {
+          rx += (x - rx) * 0.16;
+          ry += (y - ry) * 0.16;
+          ring.style.transform = "translate3d(" + rx + "px," + ry + "px,0)";
+          dot.style.transform = "translate3d(" + x + "px," + y + "px,0)";
+          requestAnimationFrame(tick);
+        };
+        tick();
+      }
     }
 
     document.querySelectorAll(".service-grid, .work-grid, .process, .proof").forEach((grid) => {
