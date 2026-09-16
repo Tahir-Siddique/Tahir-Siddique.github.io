@@ -179,9 +179,8 @@
 
   <header class="topbar">
     <a class="mark" href="#top">Tahir Siddique</a>
-    <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
-    <label class="nav-burger" for="nav-toggle"><span>Menu</span></label>
-    <nav class="topnav" aria-label="Primary">
+    <button type="button" class="nav-burger" id="nav-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="topnav" id="site-nav" aria-label="Primary">
       <a href="#services">Services</a>
       <a href="#llm">LLMs</a>
       <a href="#work">Work</a>
@@ -322,6 +321,8 @@
         <p class="band-cta"><a class="cta cta-fill" href="#estimate">Estimate an LLM feature</a></p>
       </div>
     </section>
+
+    <section class="band" id="work">
       <div class="wrap">
         <div class="band-head">
           <p class="kicker">Work</p>
@@ -753,14 +754,28 @@
       });
     });
 
-    document.getElementById("nav-toggle")?.addEventListener("change", (e) => {
-      document.body.classList.toggle("nav-open", e.target.checked);
+    const topbar = document.querySelector(".topbar");
+    const burger = document.getElementById("nav-toggle");
+    const closeNav = () => {
+      topbar?.classList.remove("is-open");
+      burger?.setAttribute("aria-expanded", "false");
+    };
+    burger?.addEventListener("click", () => {
+      const open = topbar.classList.toggle("is-open");
+      burger.setAttribute("aria-expanded", String(open));
     });
-    document.querySelectorAll(".topnav a").forEach((a) => {
-      a.addEventListener("click", () => {
-        const t = document.getElementById("nav-toggle");
-        if (t) t.checked = false;
-        document.body.classList.remove("nav-open");
+    document.querySelectorAll(".topnav a, .mark").forEach((a) => {
+      a.addEventListener("click", (e) => {
+        const href = a.getAttribute("href");
+        closeNav();
+        if (!href || href.charAt(0) !== "#") return;
+        const target = document.getElementById(href.slice(1));
+        if (!target) return;
+        e.preventDefault();
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.pushState(null, "", href);
+        });
       });
     });
   </script>

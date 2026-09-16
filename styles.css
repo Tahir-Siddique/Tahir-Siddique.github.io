@@ -18,7 +18,10 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.75rem;
+}
 
 body {
   margin: 0;
@@ -49,6 +52,7 @@ a { color: var(--cobalt-deep); }
   position: sticky;
   top: 0;
   z-index: 50;
+  overflow: visible;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,13 +71,16 @@ a { color: var(--cobalt-deep); }
   letter-spacing: -0.03em;
 }
 
-.nav-toggle { display: none; }
-
 .nav-burger {
   display: none;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  padding: 0.35rem 0.15rem;
 }
 
 .topnav {
@@ -88,6 +95,7 @@ a { color: var(--cobalt-deep); }
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
+  cursor: pointer;
 }
 
 .topnav a:hover { color: var(--ink); }
@@ -550,14 +558,18 @@ a { color: var(--cobalt-deep); }
   .topnav {
     display: none;
     position: absolute;
-    inset: 3.4rem 0 auto;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 51;
     background: var(--paper);
     border-bottom: 1px solid var(--line);
     padding: 0.8rem 1rem 1.1rem;
     flex-direction: column;
     align-items: flex-start;
   }
-  .nav-toggle:checked ~ .topnav { display: flex; }
+  .nav-toggle:checked ~ .topnav,
+  .topbar.is-open .topnav { display: flex; }
   .hero { padding-top: 2.2rem; }
   .hero-inner, .form-row, .facts { grid-template-columns: 1fr; }
   .hero-photo { width: 8.5rem; border-radius: 1.1rem; }
