@@ -23,6 +23,9 @@ html {
   scroll-padding-top: 5rem;
   color-scheme: dark;
 }
+html.lenis,
+html.lenis body { height: auto; }
+html.lenis.lenis-smooth { scroll-behavior: auto; }
 
 body {
   margin: 0;
