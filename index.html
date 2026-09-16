@@ -50,6 +50,20 @@
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "ProfilePage",
+        "@id": "https://tahirsiddique.dev/#profile",
+        "url": "https://tahirsiddique.dev/",
+        "name": "Tahir Siddique, Python Developer in London",
+        "inLanguage": "en-GB",
+        "isPartOf": { "@id": "https://tahirsiddique.dev/#website" },
+        "about": { "@id": "https://tahirsiddique.dev/#person" },
+        "mainEntity": { "@id": "https://tahirsiddique.dev/#person" },
+        "primaryImageOfPage": {
+          "@type": "ImageObject",
+          "url": "https://tahirsiddique.dev/assets/tahir-siddique-python-developer.jpg"
+        }
+      },
+      {
         "@type": "WebSite",
         "@id": "https://tahirsiddique.dev/#website",
         "url": "https://tahirsiddique.dev/",
@@ -63,12 +77,18 @@
         "name": "Tahir Siddique",
         "givenName": "Tahir",
         "familyName": "Siddique",
+        "alternateName": ["Tahir Siddique Python Developer", "Tahir Siddique London"],
+        "disambiguatingDescription": "Python backend developer in London, United Kingdom",
         "jobTitle": "Python Backend Developer",
         "description": "Tahir Siddique is a Python developer and backend engineer in London, UK. Hire him to create backends, deploy Python APIs, build custom applications, add LLM and RAG features, and ship Flutter mobile UIs. Freelance and contract. Email tahirsiddiquework@gmail.com.",
         "url": "https://tahirsiddique.dev/",
+        "mainEntityOfPage": { "@id": "https://tahirsiddique.dev/#profile" },
         "image": {
           "@type": "ImageObject",
           "url": "https://tahirsiddique.dev/assets/tahir-siddique-python-developer.jpg",
+          "contentUrl": "https://tahirsiddique.dev/assets/tahir-siddique-python-developer.jpg",
+          "width": 640,
+          "height": 640,
           "caption": "Tahir Siddique, Python backend developer in London"
         },
         "email": "mailto:tahirsiddiquework@gmail.com",
@@ -76,6 +96,23 @@
           "@type": "PostalAddress",
           "addressLocality": "London",
           "addressCountry": "GB"
+        },
+        "homeLocation": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "London",
+            "addressCountry": "GB"
+          }
+        },
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "Python Backend Developer",
+          "occupationLocation": { "@type": "City", "name": "London" }
+        },
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Synerge Ltd"
         },
         "alumniOf": [
           { "@type": "CollegeOrUniversity", "name": "University of the West of Scotland" },
@@ -128,6 +165,14 @@
         "@type": "FAQPage",
         "@id": "https://tahirsiddique.dev/#faq",
         "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is Tahir Siddique?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Tahir Siddique is a Python backend developer in London, UK. Official website https://tahirsiddique.dev/. He creates and deploys Django and FastAPI backends, custom apps, LLM/RAG features, and Flutter UIs. Email tahirsiddiquework@gmail.com. LinkedIn: https://www.linkedin.com/in/tahir-siddique-pk/"
+            }
+          },
           {
             "@type": "Question",
             "name": "Who should hire Tahir Siddique?",
@@ -220,12 +265,20 @@
               <dd>Tahir Siddique</dd>
             </div>
             <div>
+              <dt>Occupation</dt>
+              <dd>Python backend developer, London, UK</dd>
+            </div>
+            <div>
               <dt>Hire for</dt>
               <dd>Python backends, API development, backend deployment, LLM/RAG features, Flutter mobile apps</dd>
             </div>
             <div>
               <dt>Contact</dt>
               <dd><a href="mailto:tahirsiddiquework@gmail.com">tahirsiddiquework@gmail.com</a></dd>
+            </div>
+            <div>
+              <dt>Profiles</dt>
+              <dd><a href="https://www.linkedin.com/in/tahir-siddique-pk/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://github.com/Tahir-Siddique" target="_blank" rel="noopener noreferrer">GitHub</a></dd>
             </div>
           </dl>
         </div>
@@ -699,6 +752,10 @@
         <p class="kicker">FAQ</p>
         <h2 class="section-title">Before you write</h2>
         <dl class="faq">
+          <div>
+            <dt>Who is Tahir Siddique?</dt>
+            <dd>A Python backend developer in London, UK. Official site <a href="https://tahirsiddique.dev/">tahirsiddique.dev</a>. He creates and deploys Django/FastAPI backends, custom apps, LLM features, and Flutter UIs.</dd>
+          </div>
           <div>
             <dt>Who should hire Tahir Siddique?</dt>
             <dd>Anyone who needs a Python developer in London or remote to create a backend, deploy a Django/FastAPI API, build a custom app, add LLM/RAG features, or ship a Flutter mobile UI.</dd>

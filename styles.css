@@ -224,7 +224,7 @@ a { color: var(--cobalt-deep); }
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 1rem 1.5rem;
   margin: 1.8rem 0 0;
   padding: 1.1rem 0 0;
