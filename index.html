@@ -699,32 +699,39 @@
     </section>
 
     <section class="band reveal" id="awards">
-      <div class="wrap">
-        <div class="band-head">
-          <p class="kicker">Proof</p>
-          <h2 class="section-title">Study &amp; awards</h2>
+      <div class="awards-pin">
+        <div class="event-photos" aria-hidden="true">
+          <img src="assets/events/speaking.jpg" alt="" width="1024" height="576" loading="lazy">
+          <img src="assets/events/prize.jpg" alt="" width="1024" height="768" loading="lazy">
+          <img src="assets/events/team.jpg" alt="" width="576" height="384" loading="lazy">
         </div>
-        <div class="proof">
-          <article>
-            <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-cap"></use></svg></span>
-            <h3>MSc Cybersecurity</h3>
-            <p>University of the West of Scotland · 2026 · London</p>
-          </article>
-          <article>
-            <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-cap"></use></svg></span>
-            <h3>BSc Software Engineering</h3>
-            <p>COMSATS University Islamabad · 2018–2022</p>
-          </article>
-          <article>
-            <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-award"></use></svg></span>
-            <h3>1st — Innovation Challenge</h3>
-            <p>UWS London, Jul 2026 · Vigil</p>
-          </article>
-          <article>
-            <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-award"></use></svg></span>
-            <h3>2nd runner-up — Cyber hackathon</h3>
-            <p>York St John London · Team Krypton · Jun 2026</p>
-          </article>
+        <div class="wrap">
+          <div class="band-head">
+            <p class="kicker">Proof</p>
+            <h2 class="section-title">Study &amp; awards</h2>
+          </div>
+          <div class="proof">
+            <article>
+              <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-cap"></use></svg></span>
+              <h3>MSc Cybersecurity</h3>
+              <p>University of the West of Scotland · 2026 · London</p>
+            </article>
+            <article>
+              <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-cap"></use></svg></span>
+              <h3>BSc Software Engineering</h3>
+              <p>COMSATS University Islamabad · 2018–2022</p>
+            </article>
+            <article>
+              <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-award"></use></svg></span>
+              <h3>1st — Innovation Challenge</h3>
+              <p>UWS London, Jul 2026 · Vigil</p>
+            </article>
+            <article>
+              <span class="ico-box" aria-hidden="true"><svg class="ico"><use href="#i-award"></use></svg></span>
+              <h3>2nd runner-up — Cyber hackathon</h3>
+              <p>York St John London · Team Krypton · Jun 2026</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -1269,8 +1276,30 @@
         el.style.transform = "translate3d(" + st.x + "px," + st.y + "px,0) rotate(" + st.r + "deg) scale(" + st.s + ")";
       });
     };
+    const awards = document.querySelector("#awards");
+    const awardImgs = awards ? [...awards.querySelectorAll(".event-photos img")] : [];
+    const tickAwards = () => {
+      if (!awards || awardImgs.length < 2) return;
+      if (reduceMotion) {
+        awardImgs.forEach((img, i) => {
+          img.style.opacity = i === 0 ? "1" : "0";
+          img.style.transform = "";
+        });
+        return;
+      }
+      const travel = Math.max(awards.offsetHeight - window.innerHeight, 1);
+      const p = Math.min(1, Math.max(0, -awards.getBoundingClientRect().top / travel));
+      const pos = p * (awardImgs.length - 1);
+      awardImgs.forEach((img, i) => {
+        const d = Math.abs(pos - i);
+        const o = Math.max(0, 1 - d);
+        img.style.opacity = String(o);
+        img.style.transform = "translate3d(" + ((pos - i) * -9) + "%,0,0) scale(" + (1.05 + (1 - o) * 0.04) + ")";
+      });
+    };
     const onScroll = () => {
       tickHero();
+      tickAwards();
       tickEmoji();
       spy();
     };
