@@ -1141,6 +1141,32 @@ html.apple-scroll .hero-inner {
   .float-cta { display: none; }
   .emoji-rail { display: none; }
   .cursor-buddy { display: none; }
+  #awards { min-height: 220vh; }
+  .awards-pin {
+    min-height: 100svh;
+    align-content: start;
+    padding: 5.2rem 0 2.2rem;
+  }
+  #awards .proof {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+  #awards .proof article {
+    background: rgba(13, 18, 28, 0.46);
+    backdrop-filter: blur(12px);
+    padding: 0.9rem 0.9rem 1rem;
+  }
+  #awards .band-head { margin-bottom: 1rem; }
+  .event-photos {
+    filter: blur(0.4px) saturate(1.1) brightness(1.12);
+  }
+  .event-photos img:first-child { object-position: 6% 38%; }
+  .event-photos img:nth-child(2) { object-position: 40% 36%; }
+  .event-photos img:nth-child(3) { object-position: center 28%; }
+  .awards-pin::after {
+    background:
+      linear-gradient(180deg, rgba(7, 9, 15, 0.22) 0%, rgba(7, 9, 15, 0.04) 42%, rgba(7, 9, 15, 0.32) 100%);
+  }
 }
 
 @supports (animation-timeline: view()) {
