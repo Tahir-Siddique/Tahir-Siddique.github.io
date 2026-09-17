@@ -731,6 +731,7 @@
 
     <section class="band reveal" id="estimate">
       <div class="wrap estimate-grid">
+        <p class="form-thanks" id="form-thanks" hidden role="status"><span class="lottie lottie-thanks" data-lottie="assets/lottie/check.json" data-loop="false" aria-hidden="true"></span> Thanks — I’ll reply by email.</p>
         <div>
           <div class="band-kicker">
             <span class="lottie lottie-kicker" data-lottie="assets/lottie/mail.json" aria-hidden="true"></span>
@@ -747,9 +748,8 @@
           <input type="hidden" name="_subject" value="Project estimate request — tahirsiddique.dev">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="https://tahirsiddique.dev/?sent=1#estimate">
+          <input type="hidden" name="_next" value="https://tahirsiddique.dev/?sent=1#form-thanks">
           <input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <p class="form-thanks" id="form-thanks" hidden><span class="lottie lottie-thanks" data-lottie="assets/lottie/check.json" data-loop="false" aria-hidden="true"></span> Thanks — I’ll reply by email.</p>
           <label>
             <span>Name</span>
             <input type="text" name="name" required autocomplete="name" placeholder="Your name">
@@ -879,6 +879,7 @@
     document.getElementById("year").textContent = new Date().getFullYear();
     if (new URLSearchParams(location.search).get("sent") === "1") {
       const thanks = document.getElementById("form-thanks");
+      document.getElementById("estimate")?.classList.add("in");
       if (thanks) thanks.hidden = false;
     }
 
@@ -950,6 +951,107 @@
       if (scroller) scroller.scrollTo(el, { offset: -80, duration: 1.55 });
       else el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     };
+    if (new URLSearchParams(location.search).get("sent") === "1") {
+      const thanks = document.getElementById("form-thanks");
+      if (thanks && !thanks.hidden) {
+        requestAnimationFrame(() => scrollToEl(thanks));
+      }
+    }
+    document.querySelectorAll(".estimate-form select").forEach((select) => {
+      const wrap = document.createElement("div");
+      wrap.className = "select-ui";
+      select.parentNode.insertBefore(wrap, select);
+      wrap.appendChild(select);
+      select.classList.add("select-native");
+      select.tabIndex = -1;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "select-trigger";
+      btn.setAttribute("aria-haspopup", "listbox");
+      btn.setAttribute("aria-expanded", "false");
+      const menu = document.createElement("ul");
+      menu.className = "select-menu";
+      menu.setAttribute("role", "listbox");
+      menu.hidden = true;
+      const labelBtn = () => {
+        const opt = select.options[select.selectedIndex];
+        const empty = !select.value;
+        btn.replaceChildren();
+        const text = document.createElement("span");
+        text.textContent = opt ? opt.textContent : "Choose one";
+        if (empty) text.className = "is-placeholder";
+        btn.appendChild(text);
+      };
+      const close = () => {
+        menu.hidden = true;
+        wrap.classList.remove("is-open");
+        btn.setAttribute("aria-expanded", "false");
+      };
+      const paint = () => {
+        menu.replaceChildren();
+        [...select.options].forEach((opt) => {
+          if (opt.disabled && !opt.value) return;
+          const item = document.createElement("li");
+          item.className = "select-option" + (opt.selected ? " is-on" : "");
+          item.setAttribute("role", "option");
+          item.setAttribute("aria-selected", opt.selected ? "true" : "false");
+          item.textContent = opt.textContent;
+          item.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            select.value = opt.value;
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+            wrap.classList.remove("is-invalid");
+            labelBtn();
+            close();
+            btn.focus();
+          });
+          menu.appendChild(item);
+        });
+      };
+      const open = () => {
+        document.querySelectorAll(".select-ui.is-open").forEach((el) => {
+          if (el !== wrap) el.classList.remove("is-open");
+          const other = el.querySelector(".select-menu");
+          const otherBtn = el.querySelector(".select-trigger");
+          if (other && el !== wrap) {
+            other.hidden = true;
+            otherBtn?.setAttribute("aria-expanded", "false");
+          }
+        });
+        paint();
+        menu.hidden = false;
+        wrap.classList.add("is-open");
+        btn.setAttribute("aria-expanded", "true");
+      };
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (menu.hidden) open();
+        else close();
+      });
+      document.addEventListener("click", (e) => {
+        if (!wrap.contains(e.target)) close();
+      });
+      btn.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          close();
+          return;
+        }
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (menu.hidden) open();
+        }
+      });
+      select.addEventListener("invalid", (e) => {
+        e.preventDefault();
+        wrap.classList.add("is-invalid");
+        if (menu.hidden) open();
+        btn.focus();
+      });
+      labelBtn();
+      wrap.append(btn, menu);
+    });
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener("click", (e) => {
         const href = a.getAttribute("href");
