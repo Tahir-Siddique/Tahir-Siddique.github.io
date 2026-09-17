@@ -953,8 +953,19 @@
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
       });
       document.documentElement.classList.add("apple-scroll");
+      if (!location.hash || location.hash === "#top") {
+        scroller.scrollTo(0, { immediate: true });
+      }
+    }
+    if (!location.hash || location.hash === "#top") {
+      window.scrollTo(0, 0);
     }
     const scrollToEl = (el) => {
+      if (el.id === "top") {
+        if (scroller) scroller.scrollTo(0, { duration: reduceMotion ? 0 : 1.2 });
+        else window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+        return;
+      }
       if (scroller) scroller.scrollTo(el, { offset: -80, duration: 1.55 });
       else el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     };
